@@ -1,15 +1,26 @@
 .menu-item {
     min-width: 30%;
     height: 24rem;
-    flex: 1 1 30%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
     border: 1px solid black;
     margin: 0 7.5px 15px;
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
 
+    &:hover {
+        cursor: pointer;
+
+        & .background-image {
+            transform: scale(1.1);
+            transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+        }
+
+        & .content {
+            opacity: 0.9;
+            transform: scale(0.9);
+            transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95),
+                opacity .3s ease-in-out;
+        }
+    }
 
 
     &:first-child {
@@ -20,6 +31,17 @@
         margin-left: 7.5px;
     }
 
+    .background-image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
     .content {
         height: 90px;
         padding: 0 25px;
@@ -28,12 +50,17 @@
         align-items: center;
         justify-content: center;
         border: 1px solid black;
+        background-color: rgba(255, 255, 255, 0.7);
+        flex: 0 0 30%;
 
-        .title {
+        h1.title {
             font-weight: bold;
             margin-bottom: 6px;
             font-size: 22px;
             color: #4a4a4a;
+            flex-grow: 0;
+            margin-block-start: 0;
+            margin-block-end: 0;
         }
 
         .subtitle {
