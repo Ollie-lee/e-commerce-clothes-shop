@@ -1,15 +1,19 @@
 import React from "react";
+import { withRouter } from "react-router";
 
 import "./Menuitem.styles.scss";
 
-export default function MenuItem({ title, sneaker, imageUrl, big }) {
+function MenuItem({ title, sneaker, imageUrl, big, linkUrl, history, match }) {
   MenuItem.defaultProps = {
     sneaker: false,
     big: false,
   };
   const style = { backgroundImage: `url(${imageUrl})` };
   return (
-    <div className={`menu-item ${sneaker && "menu-sneakers"} ${big && "big"}`}>
+    <div
+      className={`menu-item ${sneaker && "menu-sneakers"} ${big && "big"}`}
+      onClick={() => history.push(`${match.url}${linkUrl}`)}
+    >
       <div className='background-image' style={style}>
         {/* decouple the background image from the menu item,
         we only need to the background image to increase*/}
@@ -21,3 +25,4 @@ export default function MenuItem({ title, sneaker, imageUrl, big }) {
     </div>
   );
 }
+export default withRouter(MenuItem);
