@@ -13,6 +13,7 @@ function MenuItem({ title, sneaker, imageUrl, big, linkUrl, history, match }) {
     <div
       className={`menu-item ${sneaker && "menu-sneakers"} ${big && "big"}`}
       onClick={() => history.push(`${match.url}${linkUrl}`)}
+      // insecure `${match.url}/${linkUrl}`
     >
       <div className='background-image' style={style}>
         {/* decouple the background image from the menu item,
