@@ -4,6 +4,7 @@ import { useInputChange } from "../../hooks/useInputChange";
 import "./sign-in.scss";
 import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
+import { signInWithGoogle } from "../../firebase/filebase.utils";
 
 export default function SignIn() {
   // const [email, setEmail] = useState("");
@@ -50,6 +51,9 @@ export default function SignIn() {
         />
 
         <CustomButton>Submit Form</CustomButton>
+        <CustomButton type='button' onClick={signInWithGoogle}>
+          Sign in with google
+        </CustomButton>
       </form>
     </div>
   );
