@@ -49,11 +49,16 @@ export default function SignIn() {
           handleChange={handleInputChange}
           label='password'
         />
-
-        <CustomButton>Submit Form</CustomButton>
-        <CustomButton type='button' onClick={signInWithGoogle}>
-          Sign in with google
-        </CustomButton>
+        <div className='buttons'>
+          <CustomButton>Sign in</CustomButton>
+          <CustomButton
+            type='button'
+            onClick={signInWithGoogle}
+            isGoogleSignIn={true}
+          >
+            Sign in with google
+          </CustomButton>
+        </div>
       </form>
     </div>
   );
