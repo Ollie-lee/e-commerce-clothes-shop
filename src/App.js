@@ -17,7 +17,7 @@ function App() {
     let unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       //when user sign in, user is an object, when user sign out, user is null
       setCurrentUser(user);
-      createUserProfileDocument(user);
+      createUserProfileDocument(user); // add user to firebase if user not exist
     });
 
     return () => {
