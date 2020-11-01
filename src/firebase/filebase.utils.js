@@ -18,6 +18,35 @@ firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return; // user sign out
+  //when user sign in, query inside a fire store for the document to see if it already
+  //exists
+  const userRef = firestore.doc(`users/${userAuth.uid}`); // query reference
+  const snapShot = await userRef.get(); //snapshot
+
+  //if user doesn't exist, we want to actually create a piece of data
+  //we create it using user ref
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("createUserProfileDocument -> error", error.message);
+    }
+  }
+
+  // we might still want the user reference
+  return userRef;
+};
+
 // Google authentication
 const provider = new firebase.auth.GoogleAuthProvider();
 //we want to always trigger the Google pop up when ever we use this Google auth

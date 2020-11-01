@@ -5,7 +5,7 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/Header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/SignInAndSignUp";
-import { auth } from "./firebase/filebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/filebase.utils";
 import "./App.css";
 
 function App() {
@@ -15,8 +15,9 @@ function App() {
     //when APP is mounted, add an subscription function to observe user's sign in-out state
     //once changed, trigger the callback func
     let unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      console.log("App -> user", user);
+      //when user sign in, user is an object, when user sign out, user is null
       setCurrentUser(user);
+      createUserProfileDocument(user);
     });
 
     return () => {
