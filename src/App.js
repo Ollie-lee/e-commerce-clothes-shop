@@ -9,15 +9,31 @@ import { auth, createUserProfileDocument } from "./firebase/filebase.utils";
 import "./App.css";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null); //user who sign in our application
 
   useEffect(() => {
     //when APP is mounted, add an subscription function to observe user's sign in-out state
     //once changed, trigger the callback func
-    let unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+    let unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       //when user sign in, user is an object, when user sign out, user is null
-      setCurrentUser(user);
-      createUserProfileDocument(user); // add user to firebase if user not exist
+      //when user sign out, we don't want to set anything here
+      if (userAuth) {
+        // check if our database has updated At that reference with any new data
+        const userRef = await createUserProfileDocument(userAuth); // add user to firebase if user not exist
+        //we actually do not get any data until we use data() method
+        //when we switch users, our user reference changes(i.e. user document)
+        //which trigger the callback
+        userRef.onSnapshot((snapshot) => {
+          //data is only retrieved when using snapshot.data()
+          //every time current user document changes in the backend,
+          //the latest info will be sent in the observer, so we can sync front/back end
+          setCurrentUser({ id: snapshot.id, ...snapshot.data() });
+        });
+        console.log(currentUser);
+      } else {
+        //user sign out, set current user null
+        setCurrentUser(userAuth);
+      }
     });
 
     return () => {
