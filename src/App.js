@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import Header from "./components/header/Header";
-import SignInAndSignUp from "./pages/sign-in-and-sign-up/SignInAndSignUp";
-import { auth, createUserProfileDocument } from "./firebase/filebase.utils";
-import "./App.css";
+import HomePage from './pages/homepage/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import Header from './components/header/Header';
+import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
+import { auth, createUserProfileDocument } from './firebase/filebase.utils';
+import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null); //user who sign in our application
@@ -29,7 +29,6 @@ function App() {
           //the latest info will be sent in the observer, so we can sync front/back end
           setCurrentUser({ id: snapshot.id, ...snapshot.data() });
         });
-        console.log(currentUser);
       } else {
         //user sign out, set current user null
         setCurrentUser(userAuth);
@@ -42,23 +41,27 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
+
   return (
     <div>
       <Header currentUser={currentUser} />
       <Switch>
         <Route
           exact
-          path='/'
+          path="/"
           render={(routeProps) => <HomePage {...routeProps} />}
         />
         <Route
           exact
-          path='/shop'
+          path="/shop"
           render={(routeProps) => <ShopPage {...routeProps} />}
         />
         <Route
           exact
-          path='/signin'
+          path="/signin"
           render={(routeProps) => <SignInAndSignUp {...routeProps} />}
         />
       </Switch>
