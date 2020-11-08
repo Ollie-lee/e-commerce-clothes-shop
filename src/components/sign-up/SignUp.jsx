@@ -21,6 +21,8 @@ export default function SignUp() {
     }
 
     try {
+      //Creates a new user account associated with the specified email address and password.
+      //On successful creation of the user account, this user will also be signed in to your application.
       const { user } = await auth.createUserWithEmailAndPassword(
         input['email'],
         input['password']
@@ -28,7 +30,6 @@ export default function SignUp() {
       // we want to setState to clear our form, so we need to wait this to finish
       await createUserProfileDocument(user, {
         displayName: input['displayName'],
-        test: 'ss',
       });
       setInput({
         displayName: '',
