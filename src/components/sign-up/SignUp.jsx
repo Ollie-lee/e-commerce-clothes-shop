@@ -23,6 +23,7 @@ export default function SignUp() {
     try {
       //Creates a new user account associated with the specified email address and password.
       //On successful creation of the user account, this user will also be signed in to your application.
+      //trigger onAuthStateChangeds' callback
       const { user } = await auth.createUserWithEmailAndPassword(
         input['email'],
         input['password']

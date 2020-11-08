@@ -23,6 +23,7 @@ function App() {
         //we actually do not get any data until we use data() method
         //when we switch users, our user reference changes(i.e. user document)
         //which trigger the callback
+        //onSnapshot() is equal to reference.get(), which is another way of retrieve data
         userRef.onSnapshot((snapshot) => {
           //data is only retrieved when using snapshot.data()
           //every time current user document changes in the backend,
