@@ -2,9 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect, Connect } from 'react-redux';
 
-import './header.scss';
-import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { auth } from '../../firebase/filebase.utils';
+import CartIcon from '../cart-icon/CartIcon';
+
+import { ReactComponent as Logo } from '../../assets/crown.svg';
+
+import './header.scss';
 
 function Header({ currentUser }) {
   return (
@@ -28,6 +31,7 @@ function Header({ currentUser }) {
             Sign In
           </Link>
         )}
+        <CartIcon />
       </div>
     </div>
   );

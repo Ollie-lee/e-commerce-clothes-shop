@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import HomePage from './pages/homepage/homepage.component';
@@ -10,7 +10,7 @@ import { auth, createUserProfileDocument } from './firebase/filebase.utils';
 import './App.css';
 import { setCurrentUser } from './redux/user/user.action';
 
-function App({ setCurrentUser }) {
+function App({ setCurrentUser, currentUser }) {
   useEffect(() => {
     //when APP is mounted, add an subscription function to observe user's sign in-out state
     //once changed, trigger the callback func
@@ -59,15 +59,25 @@ function App({ setCurrentUser }) {
         <Route
           exact
           path="/signin"
-          render={(routeProps) => <SignInAndSignUp {...routeProps} />}
+          render={(routeProps) =>
+            currentUser ? (
+              <Redirect to="/" />
+            ) : (
+              <SignInAndSignUp {...routeProps} />
+            )
+          }
         />
       </Switch>
     </div>
   );
 }
 
-const mapDispatchToPros = (dispatch) => ({
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToPros)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
