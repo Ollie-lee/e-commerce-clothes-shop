@@ -4,12 +4,13 @@ import { connect, Connect } from 'react-redux';
 
 import { auth } from '../../firebase/filebase.utils';
 import CartIcon from '../cart-icon/CartIcon';
+import CartDropdown from '../cart-dropdown/CartDropdown';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.scss';
 
-function Header({ currentUser }) {
+function Header({ currentUser, hidden }) {
   return (
     <div className="header">
       <Link className="logo__container" to={'/'}>
@@ -33,13 +34,15 @@ function Header({ currentUser }) {
         )}
         <CartIcon />
       </div>
+      {hidden && <CartDropdown />}
     </div>
   );
 }
 
 //function that allows us to access the states from root producer as props
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser, //state.user.current
+  hidden,
 });
 
 export default connect(mapStateToProps)(Header);
