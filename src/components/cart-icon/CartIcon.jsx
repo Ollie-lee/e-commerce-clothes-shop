@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { toggleCartHidden } from '../../redux/cart/cart.action';
 import { selectCartItemsCount } from '../../redux/cart/cart.selector';
@@ -18,14 +19,14 @@ export const CartIcon = ({ toggleCartHidden, itemCount }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log('cart is rendered');
+const mapStateToProps = createStructuredSelector(
+  // console.log('cart is rendered');
   //itemCount is an integer, and redux have a shallow comparison
   //so won't trigger re-render
-  return {
-    itemCount: selectCartItemsCount(state),
-  };
-};
+  {
+    itemCount: selectCartItemsCount,
+  }
+);
 
 const mapDispatchToProps = (dispatch) => ({
   toggleCartHidden: () => dispatch(toggleCartHidden()),

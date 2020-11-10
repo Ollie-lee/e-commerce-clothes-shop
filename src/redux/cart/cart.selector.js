@@ -9,7 +9,12 @@ export const selectCartItems = createSelector(
   (cart) => cart.cartItems
 );
 
-//above is a bridge
+export const selectCartHidden = createSelector(
+  [selectCart],
+  (cart) => cart.hidden
+);
+
+//above 'selectCartItems' is a bridge
 export const selectCartItemsCount = createSelector(
   [selectCartItems],
   (cartItems) =>
