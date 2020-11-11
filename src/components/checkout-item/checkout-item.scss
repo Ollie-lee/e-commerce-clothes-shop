@@ -26,6 +26,17 @@
 
     .quantity {
         padding-left: 2rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .arrow {
+            cursor: pointer;
+        }
+
+        .value {
+            margin: 0 1rem;
+        }
     }
 
     .remove-button {
