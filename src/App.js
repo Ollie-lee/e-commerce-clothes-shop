@@ -7,6 +7,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/Header';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
+import CheckoutPage from './pages/checkout/Checkout';
 import { setCurrentUser } from './redux/user/user.action';
 import { selectCurrentUser } from './redux/user/user.selector';
 
@@ -59,6 +60,11 @@ function App({ setCurrentUser, currentUser }) {
           exact
           path="/shop"
           render={(routeProps) => <ShopPage {...routeProps} />}
+        />
+        <Route
+          exact
+          path="/checkout"
+          render={(routeProps) => <CheckoutPage {...routeProps} />}
         />
         <Route
           exact
