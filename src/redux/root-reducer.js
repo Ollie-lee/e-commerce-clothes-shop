@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage'; //local storage
 
 import userReducer from './user/user.reducer';
 import cartReducer from './cart/cart.reducer';
+import directoryReducer from './directory/directory.reducer';
+import shopReducer from './shop/shop.reducer';
 
 //define a new persist config.
 const persistConfig = {
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   //The key is that represent the individual slices of state i.e. the actual reducer
   user: userReducer,
   cart: cartReducer,
+  directory: directoryReducer,
+  shop: shopReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
