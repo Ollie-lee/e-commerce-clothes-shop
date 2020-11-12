@@ -57,7 +57,6 @@ function App({ setCurrentUser, currentUser }) {
           render={(routeProps) => <HomePage {...routeProps} />}
         />
         <Route
-          exact
           path="/shop"
           render={(routeProps) => <ShopPage {...routeProps} />}
         />
