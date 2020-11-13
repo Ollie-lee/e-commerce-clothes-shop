@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import "./homepage.styles.scss";
-import DirectoryWrapper from "../../components/DirectoryWrapper/DirectoryWrapper.component";
+import DirectoryWrapper from '../../components/DirectoryWrapper/DirectoryWrapper.component';
+import { HomePageContainer } from './homepage.styles';
 
 export default function Homepage() {
   return (
-    <div className='homepage'>
+    <HomePageContainer>
       <DirectoryWrapper />
-    </div>
+    </HomePageContainer>
   );
 }
