@@ -8,14 +8,20 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/Header';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
 import CheckoutPage from './pages/checkout/Checkout';
+
 import { setCurrentUser } from './redux/user/user.action';
 import { selectCurrentUser } from './redux/user/user.selector';
+import { selectCollectionsForPreview } from './redux/shop/shop.selector';
 
-import { auth, createUserProfileDocument } from './firebase/filebase.utils';
+import {
+  auth,
+  createUserProfileDocument,
+  addCollectionAndDocuments,
+} from './firebase/filebase.utils';
 
 import './App.css';
 
-function App({ setCurrentUser, currentUser }) {
+function App({ setCurrentUser, currentUser, collectionsArray }) {
   useEffect(() => {
     //when APP is mounted, add an subscription function to observe user's sign in-out state
     //once changed, trigger the callback func
@@ -40,6 +46,11 @@ function App({ setCurrentUser, currentUser }) {
         setCurrentUser(userAuth);
       }
     });
+
+    // addCollectionAndDocuments(
+    //   'collections',
+    //   collectionsArray.map(({ title, items }) => ({ title, items }))
+    // );
 
     return () => {
       //clean up func for Oauth
@@ -83,6 +94,7 @@ function App({ setCurrentUser, currentUser }) {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview,
 });
 
 const mapDispatchToProps = (dispatch) => ({

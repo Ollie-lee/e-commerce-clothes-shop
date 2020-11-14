@@ -30,7 +30,9 @@ function Header({ currentUser, hidden }) {
         <OptionLink to="/shop">SHOP</OptionLink>
         <OptionLink to="/contact">CONTACT</OptionLink>
         {currentUser ? (
-          <OptionDiv onClick={() => auth.signOut()}>Sign Out</OptionDiv>
+          <OptionLink as="div" onClick={() => auth.signOut()}>
+            Sign Out
+          </OptionLink>
         ) : (
           <OptionLink to="/signin">Sign In</OptionLink>
         )}

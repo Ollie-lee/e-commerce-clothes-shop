@@ -1,16 +1,16 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const config = {
-  apiKey: "AIzaSyBqEx7GqqmsZEf3g2GfmKQ_qvaU-WROiTE",
-  authDomain: "crwn-db-9eca7.firebaseapp.com",
-  databaseURL: "https://crwn-db-9eca7.firebaseio.com",
-  projectId: "crwn-db-9eca7",
-  storageBucket: "crwn-db-9eca7.appspot.com",
-  messagingSenderId: "739054828973",
-  appId: "1:739054828973:web:92f537751add89b4423524",
-  measurementId: "G-6E5X772YLV",
+  apiKey: 'AIzaSyBqEx7GqqmsZEf3g2GfmKQ_qvaU-WROiTE',
+  authDomain: 'crwn-db-9eca7.firebaseapp.com',
+  databaseURL: 'https://crwn-db-9eca7.firebaseio.com',
+  projectId: 'crwn-db-9eca7',
+  storageBucket: 'crwn-db-9eca7.appspot.com',
+  messagingSenderId: '739054828973',
+  appId: '1:739054828973:web:92f537751add89b4423524',
+  measurementId: 'G-6E5X772YLV',
 };
 
 firebase.initializeApp(config);
@@ -39,7 +39,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData,
       });
     } catch (error) {
-      console.log("createUserProfileDocument -> error", error.message);
+      console.log('createUserProfileDocument -> error', error.message);
     }
   }
 
@@ -47,11 +47,27 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  // objectsToAdd: [{},{},{}]
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch();
+  objectsToAdd.map((obj) => {
+    const newDocRef = collectionRef.doc(); //let firestore generate a random doc ref for us
+    //instead of newDocRef.set(), we use batch
+    batch.set(newDocRef, obj);
+  });
+  return await batch.commit(); // fire all batch set() and returns a promise, resolved as null if successful
+};
+
 // Google authentication
 const provider = new firebase.auth.GoogleAuthProvider();
 //we want to always trigger the Google pop up when ever we use this Google auth
 //provider for authentication and sign in
-provider.setCustomParameters({ prompt: "select_account" });
+provider.setCustomParameters({ prompt: 'select_account' });
 
 //pass google provider popup (other popup like twitter)
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
