@@ -63,6 +63,27 @@ export const addCollectionAndDocuments = async (
   return await batch.commit(); // fire all batch set() and returns a promise, resolved as null if successful
 };
 
+export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
+  //convert a collection snapshot to a normalized map {identifier:{},identifier:{},identifier:{}}
+  const transformedCollection = collectionsSnapshot.docs.map(
+    (documentSnapshot) => {
+      const { title, items } = documentSnapshot.data();
+
+      return {
+        routeName: encodeURI(title.toLowerCase()), //convert a string to a url identifiable string
+        id: documentSnapshot.id,
+        title,
+        items,
+      };
+    }
+  );
+
+  //normalization: [{},{},{}] => {identifier:{},identifier:{},identifier:{}}
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.routeName] = collection;
+    return accumulator;
+  }, {});
+};
 // Google authentication
 const provider = new firebase.auth.GoogleAuthProvider();
 //we want to always trigger the Google pop up when ever we use this Google auth
