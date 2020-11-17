@@ -1,14 +1,18 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
+import { fetchCollectionsStart } from './shop/shop.sagas';
 import rootReducer from './root-reducer';
-import logger from 'redux-logger';
+
+//take an object with certain configuration settings on it
+//that's why needing a function to make a middleware
+const sagaMiddleware = createSagaMiddleware();
 
 //middleware expect an array,for scalability
 // if we ever needed to add more things to the middleware we can just add it to this array
-const middlewares = [thunk];
+const middlewares = [sagaMiddleware];
 
 if (process.env.NODE_ENV === 'development') {
   // middlewares.push(logger);
@@ -18,6 +22,10 @@ export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middlewares))
 );
+
+//pass each individual saga.
+//Can be used to run Sagas only after the applyMiddleware phase.
+sagaMiddleware.run(fetchCollectionsStart);
 
 // persistor is essentially a persisted version of our store
 export const persistor = persistStore(store);

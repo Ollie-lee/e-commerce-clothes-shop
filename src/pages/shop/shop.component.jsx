@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.action';
+import { fetchCollectionsStart } from '../../redux/shop/shop.action';
 
 import CollectionOverviewContainer from '../../components/collections-overview/CollectionOverviewContainer';
 import CollectionPageContainer from '../collection/CollectionPageContainer';
 
-function ShopPage({ match, fetchCollectionsStartAsync }) {
+function ShopPage({ match, fetchCollectionsStart }) {
   // fetch(`https://firestore.googleapis.com/v1/projects/crwn-db-9eca7/databases/(default)/documents/collections
   // `)
   //   .then((res) => res.json())
@@ -27,7 +27,9 @@ function ShopPage({ match, fetchCollectionsStartAsync }) {
   // );
 
   useEffect(() => {
-    fetchCollectionsStartAsync();
+    //we do not need an Async action anymore
+
+    fetchCollectionsStart();
   }, []);
 
   return (
@@ -51,7 +53,7 @@ function ShopPage({ match, fetchCollectionsStartAsync }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 
 export default connect(null, mapDispatchToProps)(ShopPage);
