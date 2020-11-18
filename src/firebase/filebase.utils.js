@@ -84,6 +84,18 @@ export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
     return accumulator;
   }, {});
 };
+
+//mimic functionality if not having firebase as the backend
+export const getCurrentUser = () => {
+  //return a promise oriented solution that our sagas can yield for
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 // Google authentication
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 //we want to always trigger the Google pop up when ever we use this Google auth

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { useInputChange } from '../../hooks/useInputChange';
 import './sign-in.scss';
 import FormInput from '../form-input/FormInput';
 import CustomButton from '../custom-button/CustomButton';
-import { auth, signInWithGoogle } from '../../firebase/filebase.utils';
 import {
   googleSignInStart,
   emailSignInStart,
@@ -20,10 +19,10 @@ function SignIn({ googleSignInStart, emailSignInStart }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // emailSignInStart({ email: input['email'], password: input['password'] });
-    emailSignInStart(input['email'], input['password']);
+    emailSignInStart(input['email'], input['password'], 'ss');
 
     // try {
-    //   await auth.signInWithEmailAndPassword(input['email'], input['password']);
+    // await auth.signInWithEmailAndPassword(input['email'], input['password']);
     //   setInput({
     //     ...input,
     //     email: '',

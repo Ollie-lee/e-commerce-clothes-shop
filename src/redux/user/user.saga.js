@@ -5,6 +5,7 @@ import {
   auth,
   googleProvider,
   createUserProfileDocument,
+  getCurrentUser,
 } from '../../firebase/filebase.utils';
 import {
   googleSignInSuccess,
@@ -46,6 +47,26 @@ export function* signInWithEmail({ payload: { email, password } }) {
   }
 }
 
+export function* isUserAuthenticated() {
+  //use a utility function to check with firebase for whether we have a logged in user or not
+  try {
+    const userAuth = yield getCurrentUser();
+    if (!userAuth) {
+      //user not signed in
+      return;
+    } else {
+      //same as signInWithEmail and signInWithGoogle
+      const userRef = yield call(createUserProfileDocument, userAuth);
+      const userSnapshot = yield userRef.get();
+      yield put(
+        emailSignInSuccess({ id: userSnapshot.id, ...userSnapshot.data() })
+      );
+    }
+  } catch (error) {
+    emailSignInFailure(error);
+  }
+}
+
 //this action type returns a payload
 export function* onEmailSignInStart() {
   yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
@@ -55,7 +76,15 @@ export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
+export function* checkUserSession() {
+  yield takeLatest(UserActionTypes.CHECK_USER_SESSION);
+}
+
 //instantiate all saga we need to call
 export function* userSagas() {
-  yield all([call(onGoogleSignInStart), call(onEmailSignInStart)]);
+  yield all([
+    call(onGoogleSignInStart),
+    call(onEmailSignInStart),
+    call(checkUserSession),
+  ]);
 }

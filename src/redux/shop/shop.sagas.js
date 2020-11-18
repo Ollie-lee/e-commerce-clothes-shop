@@ -54,6 +54,7 @@ export function* fetchCollectionsAsync() {
     //sagas do not dispatch actions using the dispatch keyword.
     //Instead they use another effect called put,
     //put is the saga effect for creating action
+    //put this action to the normal redux flow
     yield put(fetchCollectionsSuccess(collectionsMap));
   } catch (error) {
     yield put(fetchCollectionsFailure(error.message));
