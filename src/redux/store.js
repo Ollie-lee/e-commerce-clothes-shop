@@ -3,7 +3,7 @@ import { persistStore } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
-import { fetchCollectionsStart } from './shop/shop.sagas';
+import rootSaga from './root-saga';
 import rootReducer from './root-reducer';
 
 //take an object with certain configuration settings on it
@@ -25,7 +25,7 @@ export const store = createStore(
 
 //pass each individual saga.
 //Can be used to run Sagas only after the applyMiddleware phase.
-sagaMiddleware.run(fetchCollectionsStart);
+sagaMiddleware.run(rootSaga);
 
 // persistor is essentially a persisted version of our store
 export const persistor = persistStore(store);

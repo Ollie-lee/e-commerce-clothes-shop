@@ -85,13 +85,13 @@ export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
   }, {});
 };
 // Google authentication
-export const googleProvider = new firebase.auth.GoogleAuthProvider();
+const provider = new firebase.auth.GoogleAuthProvider();
 //we want to always trigger the Google pop up when ever we use this Google auth
 //provider for authentication and sign in
-googleProvider.setCustomParameters({ prompt: 'select_account' });
+provider.setCustomParameters({ prompt: 'select_account' });
 
 //pass google provider popup (other popup like twitter)
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 //in case we want the whole library.
 export default firebase;

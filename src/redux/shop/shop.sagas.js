@@ -3,7 +3,7 @@
 
 // first import: take every
 //listening for every action of a specific type that we pass to it
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, takeLatest } from 'redux-saga/effects';
 
 //we're listening for specific action types
 import { shopActionTypes } from './shop.types';
@@ -82,11 +82,14 @@ export function* fetchCollectionsStart() {
   //takeEvery creates a non blocking call in order to
   // not stop our application to continue running either other sagas
 
+  //takeEvery
   //first param: type of action,
   //second param: another generator function that will run in response to this take every listener.
   //So this is how we actually are able to trigger more code to run depending on an action type.
   //We need to write another generator that will then do the expected thing that we're looking for
-  yield takeEvery(
+
+  //taleLatest: we only want to fire fetchCollectionsAsync the latest one, from our database
+  yield takeLatest(
     shopActionTypes.FETCH_COLLECTIONS_START,
     fetchCollectionsAsync
   );
