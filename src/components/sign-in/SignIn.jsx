@@ -19,7 +19,7 @@ function SignIn({ googleSignInStart, emailSignInStart }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // emailSignInStart({ email: input['email'], password: input['password'] });
-    emailSignInStart(input['email'], input['password'], 'ss');
+    emailSignInStart(input['email'], input['password']);
 
     // try {
     // await auth.signInWithEmailAndPassword(input['email'], input['password']);

@@ -14,6 +14,8 @@ import {
   emailSignInFailure,
   signOutFailure,
   signOutSuccess,
+  signUpSuccess,
+  signUpFailure,
 } from './user.action';
 
 import { clearCart } from '../cart/cart.action';
@@ -81,6 +83,32 @@ export function* signOut() {
   }
 }
 
+export function* signUp({ payload: { email, password, displayName } }) {
+  try {
+    // Creates a new user account associated with the specified email address and password.
+    //On successful creation of the user account, this user will also be signed in to your application.
+    //trigger onAuthStateChangeds' callback
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    // we want to setState to clear our form, so we need to wait this to finish
+    yield call(
+      createUserProfileDocument,
+      (user,
+      {
+        displayName,
+      })
+    );
+    yield put(signUpSuccess({ email, password, displayName }));
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
+}
+
+export function* signInAfterSignUp({
+  payload: { email, password, displayName },
+}) {
+  yield signInWithEmail({ payload: { email, password } });
+}
+
 //this action type returns a payload
 export function* onEmailSignInStart() {
   yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
@@ -98,6 +126,14 @@ export function* onSignOutStart() {
   yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
 }
 
+export function* onSignUpStart() {
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
+}
+
+export function* onSignUp() {
+  yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp);
+}
+
 //instantiate all saga we need to call
 export function* userSagas() {
   yield all([
@@ -105,5 +141,7 @@ export function* userSagas() {
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
+    call(onSignUpStart),
+    call(onSignUp),
   ]);
 }

@@ -1,17 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect, Connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { signOutStart } from '../../redux/user/user.action';
-import { auth } from '../../firebase/filebase.utils';
 import CartIcon from '../cart-icon/CartIcon';
 import CartDropdown from '../cart-dropdown/CartDropdown';
 import { selectCartHidden } from '../../redux/cart/cart.selector';
 import { selectCurrentUser } from '../../redux/user/user.selector';
 import {
   HeaderContainer,
-  OptionDiv,
   OptionLink,
   OptionsContainer,
   LogoContainer,

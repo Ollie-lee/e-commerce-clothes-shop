@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import FormInput from '../form-input/FormInput';
 import CustomButton from '../custom-button/CustomButton';
+
+import { signUpStart } from '../../redux/user/user.action';
 import { auth, createUserProfileDocument } from '../../firebase/filebase.utils';
 import { useInputChange } from '../../hooks/useInputChange';
 
-export default function SignUp() {
+function SignUp({ signUpStart }) {
   const [input, handleInputChange, setInput] = useInputChange({
     displayName: '',
     email: '',
@@ -13,34 +16,36 @@ export default function SignUp() {
     confirmPassword: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (input['password'] !== input['confirmPassword']) {
       alert("passwords don't match");
       return;
     }
 
-    try {
-      //Creates a new user account associated with the specified email address and password.
-      //On successful creation of the user account, this user will also be signed in to your application.
-      //trigger onAuthStateChangeds' callback
-      const { user } = await auth.createUserWithEmailAndPassword(
-        input['email'],
-        input['password']
-      );
-      // we want to setState to clear our form, so we need to wait this to finish
-      await createUserProfileDocument(user, {
-        displayName: input['displayName'],
-      });
-      setInput({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
-    } catch (error) {
-      alert(error);
-    }
+    signUpStart(input['email'], input['password'], input['displayName']);
+
+    // try {
+    //   //Creates a new user account associated with the specified email address and password.
+    //   //On successful creation of the user account, this user will also be signed in to your application.
+    //   //trigger onAuthStateChangeds' callback
+    //   const { user } = await auth.createUserWithEmailAndPassword(
+    //     input['email'],
+    //     input['password']
+    //   );
+    //   // we want to setState to clear our form, so we need to wait this to finish
+    //   await createUserProfileDocument(user, {
+    //     displayName: input['displayName'],
+    //   });
+    //   setInput({
+    //     displayName: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: '',
+    //   });
+    // } catch (error) {
+    //   alert(error);
+    // }
   };
 
   return (
@@ -88,3 +93,12 @@ export default function SignUp() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (email, password, displayName) =>
+    dispatch(signUpStart({ email, password, displayName })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
