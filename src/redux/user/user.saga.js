@@ -12,7 +12,11 @@ import {
   googleSignInFailure,
   emailSignInSuccess,
   emailSignInFailure,
+  signOutFailure,
+  signOutSuccess,
 } from './user.action';
+
+import { clearCart } from '../cart/cart.action';
 
 export function* signInWithGoogle() {
   try {
@@ -67,6 +71,16 @@ export function* isUserAuthenticated() {
   }
 }
 
+export function* signOut() {
+  try {
+    yield auth.signOut();
+    yield put(signOutSuccess());
+    // yield put(clearCart());
+  } catch (error) {
+    yield put(signOutFailure(error));
+  }
+}
+
 //this action type returns a payload
 export function* onEmailSignInStart() {
   yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
@@ -76,8 +90,12 @@ export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
-export function* checkUserSession() {
-  yield takeLatest(UserActionTypes.CHECK_USER_SESSION);
+export function* onCheckUserSession() {
+  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
+}
+
+export function* onSignOutStart() {
+  yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
 }
 
 //instantiate all saga we need to call
@@ -85,6 +103,7 @@ export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
-    call(checkUserSession),
+    call(onCheckUserSession),
+    call(onSignOutStart),
   ]);
 }

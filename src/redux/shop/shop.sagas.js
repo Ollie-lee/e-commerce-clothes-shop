@@ -3,7 +3,7 @@
 
 // first import: take every
 //listening for every action of a specific type that we pass to it
-import { takeEvery, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 //we're listening for specific action types
 import { shopActionTypes } from './shop.types';
@@ -94,4 +94,8 @@ export function* fetchCollectionsStart() {
     shopActionTypes.FETCH_COLLECTIONS_START,
     fetchCollectionsAsync
   );
+}
+
+export function* shopSagas() {
+  yield all([call(fetchCollectionsStart)]);
 }

@@ -18,7 +18,15 @@ export default (state = initialState, { type, payload }) => {
       };
     case UserActionTypes.GOOGLE_SIGN_IN_FAILURE:
     case UserActionTypes.EMAIL_SIGN_IN_FAILURE:
+    case UserActionTypes.SIGN_OUT_FAILURE:
       return { ...state, error: payload };
+
+    case UserActionTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        currentUser: null,
+      };
 
     default:
       return state;
